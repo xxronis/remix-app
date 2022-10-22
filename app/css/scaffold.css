@@ -1,0 +1,7 @@
+body {
+    background: rgb(221, 226, 228);
+    /* background-image: url(/bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat; */
+    height: 100vh;
+}
