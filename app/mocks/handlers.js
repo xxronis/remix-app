@@ -1,39 +1,44 @@
 import { rest } from 'msw'
+import {aShare, myShares} from './items/my-shares'
 
 export const handlers = [
-    // Handles a POST /login request
-    // rest.post('/login', null),
-    // Handles a GET /work request
-    rest.get('https://api.medium.com/v1/users/', (req, res, ctx) => {
+
+      rest.get('https://api.medium.com/v1/menu/', (req, res, ctx) => {
         return res(
             ctx.status(200),
             ctx.json({
-                works: [
+                items: [
                   {
-                    slug: "my-first-post-how-the-fuck",
-                    title: "My First Post",
-                    image: "/gio-work1.jpg"
+                    path: "/shared-with-me",
+                    title: "Shared with me"
                   },
                   {
-                    slug: "90s-mixtape",
-                    title: "A Mixtape I Made Just For You",
-                    image: "/gio-work2.jpg"
+                    path: "/my-shares",
+                    title: "My Shares"
                   },
+                  {
+                    path: "/cloud-provider",
+                    title: "Cloud Provider"
+                  },
+                  {
+                    path: "/auditing",
+                    title: "Auditing"
+                  }
                 ],
               }),
         )
     }),
 
-    rest.get('https://api.medium.com/v1/work/:slug', (req, res, ctx) => {
-      const { slug } = req.params
-      console.log(slug)
+    rest.get('https://api.medium.com/v1/my-shares/', (req, res, ctx) => {
       return res(
-          // ctx.status(200),
-          ctx.json({
-              slug: "my-first-post-how-the-fuck",
-              title: "My First Post",
-              image: "/gio-work1.jpg"
-            }),
-          )
-      })
-  ]
+          ctx.status(200),
+          ctx.json(myShares),
+      )
+  }),
+  rest.get('https://api.medium.com/v1/my-shares/:guid', (req, res, ctx) => {
+    return res(
+        ctx.status(200),
+        ctx.json(aShare),
+    )
+}),
+]
