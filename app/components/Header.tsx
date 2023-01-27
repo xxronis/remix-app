@@ -194,8 +194,8 @@ export default function Header() {
                         aria-hidden="true"
                         fill="none"
                         strokeLinecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                       >
@@ -216,8 +216,8 @@ export default function Header() {
                         aria-hidden="true"
                         fill="none"
                         strokeLinecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                       >
@@ -239,8 +239,8 @@ export default function Header() {
                         aria-hidden="true"
                         fill="none"
                         strokeLinecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                       >

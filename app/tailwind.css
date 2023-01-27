@@ -825,11 +825,6 @@ video {
           animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.columns-3xs {
-  -moz-columns: 16rem;
-       columns: 16rem;
-}
-
 .flex-col {
   flex-direction: column;
 }
@@ -844,10 +839,6 @@ video {
 
 .justify-between {
   justify-content: space-between;
-}
-
-.gap-2 {
-  gap: 0.5rem;
 }
 
 .space-x-6 > :not([hidden]) ~ :not([hidden]) {
