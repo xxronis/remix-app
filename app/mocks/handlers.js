@@ -31,6 +31,7 @@ export const handlers = [
 
     rest.get('https://api.medium.com/v1/my-shares/', (req, res, ctx) => {
       return res(
+          // ctx.delay(2000),
           ctx.status(200),
           ctx.json(myShares),
       )

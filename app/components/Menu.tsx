@@ -14,6 +14,7 @@ export default function Menu({items}) {
           <li className="relative px-6 py-3" key={item.path}>
             <NavLink
               to={item.path}
+              prefetch='intent'
               className={({ isActive }) =>
                 isActive ? menuItemClasses + activeClassName : menuItemClasses
               }
