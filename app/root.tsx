@@ -20,6 +20,7 @@ import nProgressStyles from "nprogress/nprogress.css";
 import { useTransition } from "@remix-run/react";
 import { useEffect, useMemo, useState } from "react";
 import TaskManager from "./components/TaskManager";
+import { menuItems } from "./mocks/items/menu-items";
 
 export const loader: LoaderFunction = async () => {
   return getAllMenus();
@@ -32,15 +33,15 @@ export const links: LinksFunction = () => [
 ]
 
 // Start mock on dev mode.
-if (process.env.NODE_ENV === 'development') {
-  if (typeof document === "undefined") {
-    const { server } = require("./mocks/server");
-    server.listen();
-  } else {
-    const { worker } = require("./mocks/browser");
-    worker.start();
-  }
-}
+// if (process.env.NODE_ENV === 'development') {
+//   if (typeof document === "undefined") {
+//     const { server } = require("./mocks/server");
+//     server.listen();
+//   } else {
+//     const { worker } = require("./mocks/browser");
+//     worker.start();
+//   }
+// }
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -102,7 +103,7 @@ export default function App() {
               <a className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="/">
                 E-share
               </a>
-              <Menu items={items}/>
+              <Menu items={items} preFetch={true}/>
             </div>
           </aside>
 

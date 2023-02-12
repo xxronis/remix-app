@@ -1,28 +1,23 @@
 import { Await, Link, NavLink, Outlet, useAsyncError, useAsyncValue, useFetcher, useLoaderData } from "@remix-run/react";
-import { defer, LinksFunction, LoaderArgs, LoaderFunction } from "@remix-run/node";
-// import work from "../css/work.css"
+import { defer, LoaderArgs, LoaderFunction } from "@remix-run/node";
 import { getMyShares } from "~/models/my-shares.server";
-import Menu from "~/components/Menu";
+import Menu, { MenuItem } from "~/components/Menu";
 import { Suspense, useEffect } from "react";
+import { getSharesMenu } from "~/models/menus.server";
+import Spinner from "~/components/Spinner";
 
-// export const loader: LoaderFunction = async () => {
-//   const items = getMyShares();
-  
-//   return defer({
-//     items
-//   })
-// };
 export async function loader({ params }: LoaderArgs) {
-  const items = await getMyShares();
+  const items = getMyShares();
+  const sharesMenu = await getSharesMenu();
 
   return defer({
-    items
+    items,
+    sharesMenu
   })
 }
 
 export default function MySharesRoute() {
-  // const sdf = useLoaderData();
-  const {items} = useLoaderData();
+  const {items, sharesMenu} = useLoaderData();
   // const { load: loadSharesData, ...mySharesFetcher } = useFetcher();
 
   // useEffect(() => {
@@ -36,10 +31,16 @@ export default function MySharesRoute() {
       <main>
         <h1>My Shares</h1>
         <div>
-        <Suspense fallback={<p>Loading shares...</p>}>
-            <Await resolve={items} errorElement={<SharesError/>}>
-              <ItemList/>
-            </Await>
+        <Suspense fallback={<Spinner text="Loading shares menu..."/>}>
+          <Await resolve={sharesMenu} errorElement={<SharesMenuError/>}>
+            <SharesMenu/>
+          </Await>
+        </Suspense>
+
+        <Suspense fallback={<Spinner text="Loading shares..."/>}>
+          <Await resolve={items} errorElement={<SharesError/>}>
+            <ItemList/>
+          </Await>
         </Suspense>
             {/* <ul>
               {mySharesFetcher.state !== 'idle' && 
@@ -65,25 +66,40 @@ export default function MySharesRoute() {
 
 function SharesError() {
   let error = useAsyncError<UseDataFunctionReturn<typeof loader>["items"]>(); // Get the rejected value
-  return <p>There was an error loading reviews: {error.message}</p>;
+  return <p>There was an error loading items: {error.message}</p>;
+}
+
+function SharesMenuError() {
+  let error = useAsyncError<UseDataFunctionReturn<typeof loader>["sharesMenu"]>(); // Get the rejected value
+  return <p>There was an error loading shares menu: {error.message}</p>;
 }
 
 function ItemList() {
-  let {items} = useAsyncValue();
-  console.log(items)
+  let { items } = useAsyncValue();
+
   return (
     <ul>
       {items && items.map((item) => (
-                  <li key={item.name}>
-                      <NavLink
-                        to={`/my-shares/item/${item.guid}`}
-                        className="text-blue-600 underline"
-                      >
-                        {item.name}
-                      </NavLink>
-                    </li>
-                ))
+          <li key={item.name}>
+            <NavLink
+              to={`/my-shares/item/${item.guid}`}
+              className="text-blue-600 underline"
+            >
+              {item.name}
+            </NavLink>
+          </li>
+        ))
       }
     </ul>
+  );
+}
+
+function SharesMenu() {
+  let { items } = useAsyncValue();
+
+  return (
+    <div className="h-80 clear-both">
+      <Menu items={items}/>
+    </div>
   );
 }

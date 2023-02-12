@@ -1,7 +1,17 @@
 import { NavLink} from "@remix-run/react";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 
-export default function Menu({items}) {
+export type MenuItem = {
+  path: string;
+  title: string;
+}
+
+export type MenuProps = {
+  items: MenuItem[];
+  preFetch?: boolean
+}
+
+export default function Menu({items, preFetch = true}: MenuProps) {
   const activeStyle = {
     textDecoration: "underline",
   };
@@ -10,26 +20,17 @@ export default function Menu({items}) {
   return (
     <div>
       <ul className="mt-6">
-        {items && items.map((item) => (
+        {items && items.map((item: MenuItem) => (
           <li className="relative px-6 py-3" key={item.path}>
             <NavLink
               to={item.path}
-              prefetch='intent'
+              prefetch={preFetch ? 'intent' : 'none'}
               className={({ isActive }) =>
                 isActive ? menuItemClasses + activeClassName : menuItemClasses
               }
             >
               <span className="ml-4">{item.title}</span>
             </NavLink>
-                {/* <!-- Active items have the snippet below -->
-                <!-- <span
-                  className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
-                  aria-hidden="true"
-                ></span> --> */}
-
-                {/* <!-- Add this classNamees to an active anchor (a tag) -->
-                <!-- text-gray-800 dark:text-gray-100 --> */}
-                
           </li>
         ))}
       </ul>
